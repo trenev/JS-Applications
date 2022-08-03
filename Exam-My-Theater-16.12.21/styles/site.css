@@ -135,3 +135,7 @@ form > p {
     background-color: rgba(0, 0, 0, 0.329);
     color: white;
 }
+
+.user, .guest {
+    display: none;
+}

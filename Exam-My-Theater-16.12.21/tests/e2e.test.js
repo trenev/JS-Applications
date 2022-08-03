@@ -3,7 +3,7 @@ const { expect } = require('chai');
 
 const host = 'http://localhost:3000'; // Application host (NOT service host - that can be anything)
 const interval = 500;
-const DEBUG = true;
+const DEBUG = false;
 const slowMo = 500;
 
 const mockData = require('./mock-data.json');
@@ -709,7 +709,7 @@ describe('E2E tests', function () {
 
         });
 
-        it.only('Like button should increase total likes by 1 after a click on it [ 5 Points ]', async () => {
+        it('Like button should increase total likes by 1 after a click on it [ 5 Points ]', async () => {
             // Login user
             const user = mockData.users[0];
             const data = mockData.catalog[2];
