@@ -45,13 +45,17 @@ function controlsTemplate(post, user, hasDonation, onDelete, onDonate) {
 export async function detailsPage(ctx) {
     const userData = getUserData();
 
-    const [post, donationCount, hasDonation] = await Promise.all([
+    let [post, donationCount, hasDonation] = await Promise.all([
         getPostById(ctx.params.id),
         getDonationCountByPostId(ctx.params.id),
         userData ? getDonationForPostByUserId(ctx.params.id, userData.id) : 0
     ]);
 
-    ctx.render(detailsTemplate(post, userData, donationCount, hasDonation, onDelete, onDonate));
+    renderTemplate(post, userData, donationCount, hasDonation, onDelete, onDonate);
+
+    function renderTemplate(post, userData, donationCount, hasDonation, onDelete, onDonate) {
+        ctx.render(detailsTemplate(post, userData, donationCount, hasDonation, onDelete, onDonate));
+    }
 
     async function onDelete() {
         const choice = confirm(`Are you sure you want to delete ${post.title}?`);
@@ -64,6 +68,6 @@ export async function detailsPage(ctx) {
 
     async function onDonate() {
         await createDonation(post._id);
-        ctx.page.redirect('/details/' + post._id);
+        renderTemplate(post, userData, donationCount += 1, 1, onDelete, onDonate);
     }
 }
